@@ -47,22 +47,26 @@ export class ArticleService {
   }
 
   async updateArticle(id: number, article: UpdateArticleDto, userId: number) {
-    const existingArticle = await this.validateArticleAndAccess(id, userId);
+    const existingArticle = await this.validateAccess(id, userId);
+    // function throws an error if the user is not the author of the article
     await this.validateUniqueTitle(article.title);
+
     Object.assign(existingArticle, article);
     await this.articleRepository.update(existingArticle);
+    // invalidate article cache
     await this.invalidateCaches('article');
   }
 
   async deleteArticle(id: number, userId: number) {
-    Promise.all([
-      await this.validateArticleAndAccess(id, userId),
-      await this.articleRepository.deleteById(id),
-      await this.invalidateCaches('article'),
-    ]);
+    // function throws an error if the user is not the author of the article
+    await this.validateAccess(id, userId);
+    // delete article by id
+    await this.articleRepository.deleteById(id);
+    // invalidate article cache
+    await this.invalidateCaches('article');
   }
 
-  private async validateArticleAndAccess(id: number, userId: number) {
+  private async validateAccess(id: number, userId: number) {
     const article = await this.articleRepository.getArticleWithAuthor(id);
     if (!article) {
       throw new BadRequestException(`Article with ID ${id} does not exist`);

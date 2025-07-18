@@ -52,6 +52,7 @@
     "pino-pretty": "^13.0.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
+    "test-qtim": "link:",
     "typeorm": "^0.3.25"
   },
   "devDependencies": {
