@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   CreateDateColumn,
-  Relation,
 } from 'typeorm';
 
 @Entity()
@@ -23,8 +22,11 @@ export class UserEntity implements IUser {
   @Column({ name: 'password_hash' })
   password: string;
 
-  @OneToMany(() => ArticleEntity, (articleEntity) => articleEntity.author)
-  articles: Relation<ArticleEntity[]>;
+  @OneToMany(
+    () => ArticleEntity,
+    (articleEntity: ArticleEntity) => articleEntity.author,
+  )
+  articles: ArticleEntity[];
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

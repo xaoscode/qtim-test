@@ -31,7 +31,7 @@
 2. **Установите зависимости**:
 
    ```bash
-   npm install
+   pnpm install
    ```
 
 3. **Настройте окружение**:
@@ -41,12 +41,12 @@
 4. **Запустите миграции**:
 
    ```bash
-   npm run typeorm:migration:run
+   pnpm run typeorm:migration:run
    ```
 
 5. **Запустите проект**:
    ```bash
-   npm run start:dev
+   pnpm run start:dev
    ```
 
 ## Тестирование
@@ -54,7 +54,7 @@
 Для запуска unit-тестов выполните:
 
 ```bash
-npm run test
+pnpm run test
 ```
 
 ## Документация API
