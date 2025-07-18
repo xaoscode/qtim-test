@@ -55,9 +55,11 @@ export class ArticleService {
   }
 
   async deleteArticle(id: number, userId: number) {
-    await this.validateArticleAndAccess(id, userId);
-    await this.articleRepository.deleteById(id);
-    await this.invalidateCaches('article');
+    Promise.all([
+      await this.validateArticleAndAccess(id, userId),
+      await this.articleRepository.deleteById(id),
+      await this.invalidateCaches('article'),
+    ]);
   }
 
   private async validateArticleAndAccess(id: number, userId: number) {

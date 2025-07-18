@@ -12,23 +12,23 @@ export class UserRepository {
   ) {}
   async getById(id: number): Promise<UserEntity | null> {
     const user = await this.userRepository.findOneBy({ id });
-    if (user) {
-      return user;
+    if (!user) {
+      throw new HttpException(
+        'User with this id does not exist',
+        HttpStatus.NOT_FOUND,
+      );
     }
-    throw new HttpException(
-      'User with this id does not exist',
-      HttpStatus.NOT_FOUND,
-    );
+    return user;
   }
   async getByEmail(email: string): Promise<UserEntity | null> {
     const user = await this.userRepository.findOneBy({ email });
-    if (user) {
-      return user;
+    if (!user) {
+      throw new HttpException(
+        'User with this email does not exist',
+        HttpStatus.NOT_FOUND,
+      );
     }
-    throw new HttpException(
-      'User with this email does not exist',
-      HttpStatus.NOT_FOUND,
-    );
+    return user;
   }
   async create(userData: RegisterDto) {
     const user = this.userRepository.create(userData);
