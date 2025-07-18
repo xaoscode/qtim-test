@@ -32,7 +32,7 @@ export class AuthService {
     } catch (error) {
       if (error?.code === PostgresErrorCode.UniqueViolation) {
         throw new HttpException(
-          'User with that email already exists',
+          'User with that email or display name already exists',
           HttpStatus.BAD_REQUEST,
         );
       }
@@ -57,7 +57,6 @@ export class AuthService {
     if (!user) {
       throw new BadRequestException('User not found');
     }
-    console.log(password, user.password);
     const isValidPassword = await compare(password, user.password);
     if (!isValidPassword) {
       throw new BadRequestException('Invalid password');

@@ -5,3 +5,9 @@ export interface IArticle {
   content: string;
   createdAt: Date;
 }
+
+export interface ICreateArticle extends Omit<IArticle, 'id' | 'createdAt'> {
+  title: string;
+  description: string;
+  content: string;
+}

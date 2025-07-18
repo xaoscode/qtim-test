@@ -8,6 +8,7 @@ import { UserRepository } from '../user/repositories/user.repository';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { createMock } from '@golevelup/ts-jest';
 
 jest.mock('bcrypt', () => ({
   hash: jest.fn(),
@@ -26,22 +27,15 @@ describe('AuthService', () => {
         AuthService,
         {
           provide: UserRepository,
-          useValue: {
-            create: jest.fn(),
-            getByEmail: jest.fn(),
-          },
+          useValue: createMock<UserRepository>(),
         },
         {
           provide: JwtService,
-          useValue: {
-            sign: jest.fn(),
-          },
+          useValue: createMock<JwtService>(),
         },
         {
           provide: ConfigService,
-          useValue: {
-            get: jest.fn(),
-          },
+          useValue: createMock<ConfigService>(),
         },
       ],
     }).compile();

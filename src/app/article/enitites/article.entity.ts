@@ -1,6 +1,13 @@
 import { IArticle } from 'src/libs/interfaces/article.interface';
 import { UserEntity } from '../../user/entities/user.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class ArticleEntity implements IArticle {
@@ -16,9 +23,10 @@ export class ArticleEntity implements IArticle {
   @Column('text')
   content: string;
 
-  @Column({ name: 'created_at' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
   @ManyToOne(() => UserEntity, (userEntity: UserEntity) => userEntity.articles)
+  @JoinColumn({ name: 'author_id' })
   author: UserEntity;
 }

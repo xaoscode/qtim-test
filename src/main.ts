@@ -14,14 +14,24 @@ async function bootstrap() {
   app.useLogger(logger);
 
   const config = new DocumentBuilder()
-    .setTitle('Docs')
+    .setTitle('Api Documentation')
     .setDescription('Qtim Test')
     .setVersion('0.1')
-    .addBearerAuth()
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'Authorization',
+        description: 'Enter JWT token (Bearer <token>)',
+        in: 'header',
+      },
+      'JWT-auth',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup('api', app, document);
 
   app.useGlobalPipes(new ValidationPipe());
 
